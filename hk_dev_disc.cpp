@@ -22,56 +22,38 @@ char get_subip(char *src_ip,char *dest_ip,char *dest_subip){
 	char index = 0;
 	
 	while (index != 3){
-		
 		if ( src_ip[ip_index] == '.' ){
-			
 			index ++;
 		} 
-		
 		dest_ip[ip_index] = src_ip[ip_index];
 		ip_index ++;
 	}
-
 	dest_ip[ip_index] = '\0';
-	
 	index = 0;
-	
 	while (src_ip[ip_index]){
-		
 		dest_subip[index++] = src_ip[ip_index++];
-		
 		if (index >= 4) {
-			
 			return -1;
-			
 		}
 	}
-	
 	dest_subip[index] = '\0';
-	
 	return 0;
 }
-
-char itos(int num,char *str){
-	
+char itos(int num,char *str){	//int 转 string 
 	int i = 0;
 	int j = 0;
 	int temp = 0;
-	
 	while (num > 0){
-		
 		str[i++] = (num  % 10) + 0x30;	
 		num /= 10;
 	}
-	
 	str[i] = '\0';
-	
 	for (j = 0;j < i/2+1;j++){
-		
 		i--;
-		temp = str[i];str[i] = str[j];str[j] = temp;
+		temp = str[i];
+		str[i] = str[j];
+		str[j] = temp;
 	}
-	
 //	printf("num:%d  str:%s \n",num,str);
 	return 0;
 }
@@ -127,7 +109,6 @@ int main(int argc,char *argv[]){
 	}
 	
 	*/
-
 	
 	FILE *pfile = NULL;
 	char *filename = PATH;
