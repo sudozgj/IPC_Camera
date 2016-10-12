@@ -4,12 +4,8 @@
 #include <errno.h>
 #include "HCNetSDK.h"
 
-// #include "public.h"
-#include "Alarm.h"
-
 #include <iostream>
 #include <string.h>
-// #include "Alarm.h"
 #include <fstream>
 #include <time.h>
 
@@ -38,35 +34,35 @@ time_t time_1;	//time
 void rcdFile(NET_DVR_ALARMER *pAlarmer,NET_DVR_ALARMINFO_V40 struAlarmInfo,char tmp[64],time_t now_time){
 	ofstream f(fPath,ios::app);
 
-	NET_DVR_IPPARACFG_V40 IPAccessCfgV40;
-	memset(&IPAccessCfgV40, 0, sizeof(NET_DVR_IPPARACFG));
+	//printf("|||||||| : %d\n", struAlarmInfo.pAlarmData);	//可能要用到
+	// dwAlarmChanNum 发生报警通道数据个数，用于从NET_DVR_ALARMINFO_V40的pAlarmData(变长数据部分)计算出所有发生的报警通道号，四字节表示一个报警通道 
 
-	// IPAccessCfgV40.
 
 	int i;
 	if(!f){
 		printf("  打开文件失败！\n");
 		return;
 	}
-	printf("  进入记录函数中__\n");
+	printf("+-进入记录函数中\n");
 	if(struAlarmInfo.struAlarmFixedHeader.dwAlarmType==3){
-		printf("  __进入3中__\n");
-		printf("==通道== :%d",struAlarmInfo.struAlarmFixedHeader.uStruAlarm.struAlarmChannel.dwAlarmChanNum);
-		f<<pAlarmer->sDeviceIP<<"-"<<"移动侦测报警"<<"-"<<tmp<<"-"<<now_time<<"-"<<struAlarmInfo.struAlarmFixedHeader.uStruAlarm.struIOAlarm.dwAlarmInputNo<<endl;
-		printf("--struIOAlarm.dwAlarmInputNo 发生报警的报警输入通道号，一次只有一个:%d--\n", struAlarmInfo.struAlarmFixedHeader.uStruAlarm.struIOAlarm.dwAlarmInputNo);
-		printf("--struIOAlarm.dwTrigerAlarmOutNum  触发的报警输出个数:%d--\n", struAlarmInfo.struAlarmFixedHeader.uStruAlarm.struIOAlarm.dwTrigerAlarmOutNum );
-		printf("--struIOAlarm.dwTrigerRecordChanNum   触发的录像通道个数:%d--\n", struAlarmInfo.struAlarmFixedHeader.uStruAlarm.struIOAlarm.dwTrigerRecordChanNum  );
-		printf("--struAlarmChannel.dwAlarmChanNum    发生报警通道数据个数:%d--\n", struAlarmInfo.struAlarmFixedHeader.uStruAlarm.struAlarmChannel.dwAlarmChanNum   );
+		printf("+---进入3中\n");
+		printf("+-----通道 :%d\n",struAlarmInfo.struAlarmFixedHeader.uStruAlarm.struIOAlarm.dwAlarmInputNo);
+		f<<pAlarmer->sDeviceIP<<"-"<<"移动侦测报警"<<"-"<<tmp<<"-"<<now_time<<"-"<<struAlarmInfo.struAlarmFixedHeader.uStruAlarm.struIOAlarm.dwAlarmInputNo<<";";
+		// printf("--struIOAlarm.dwAlarmInputNo 发生报警的报警输入通道号，一次只有一个:%d\n", struAlarmInfo.struAlarmFixedHeader.uStruAlarm.struIOAlarm.dwAlarmInputNo);		
+		// printf("--struIOAlarm.dwTrigerAlarmOutNum  触发的报警输出个数:%d--\n", struAlarmInfo.struAlarmFixedHeader.uStruAlarm.struIOAlarm.dwTrigerAlarmOutNum );
+		// printf("--struIOAlarm.dwTrigerRecordChanNum   触发的录像通道个数:%d--\n", struAlarmInfo.struAlarmFixedHeader.uStruAlarm.struIOAlarm.dwTrigerRecordChanNum  );
+		// printf("--struAlarmChannel.dwAlarmChanNum    发生报警通道数据个数:%d--\n", struAlarmInfo.struAlarmFixedHeader.uStruAlarm.struAlarmChannel.dwAlarmChanNum   );
 	}
 	if(struAlarmInfo.struAlarmFixedHeader.dwAlarmType==6){
-		printf("  __进入6中__\n");
-		printf("==通道== :%d",struAlarmInfo.struAlarmFixedHeader.uStruAlarm.struAlarmChannel.dwAlarmChanNum);
-		f<<pAlarmer->sDeviceIP<<"-"<<"遮挡报警"<<"-"<<tmp<<"-"<<now_time<<"-"<<struAlarmInfo.struAlarmFixedHeader.uStruAlarm.struIOAlarm.dwAlarmInputNo<<endl;
-		printf("--struIOAlarm.dwAlarmInputNo 发生报警的报警输入通道号，一次只有一个:%d--\n", struAlarmInfo.struAlarmFixedHeader.uStruAlarm.struIOAlarm.dwAlarmInputNo);
-		printf("--struIOAlarm.dwTrigerAlarmOutNum  触发的报警输出个数:%d--\n", struAlarmInfo.struAlarmFixedHeader.uStruAlarm.struIOAlarm.dwTrigerAlarmOutNum );
-		printf("--struIOAlarm.dwTrigerRecordChanNum   触发的录像通道个数:%d--\n", struAlarmInfo.struAlarmFixedHeader.uStruAlarm.struIOAlarm.dwTrigerRecordChanNum  );
-		printf("--struAlarmChannel.dwAlarmChanNum    发生报警通道数据个数:%d--\n", struAlarmInfo.struAlarmFixedHeader.uStruAlarm.struAlarmChannel.dwAlarmChanNum   );
+		printf("+---进入6中\n");
+		printf("+-----通道 :%d\n",struAlarmInfo.struAlarmFixedHeader.uStruAlarm.struIOAlarm.dwAlarmInputNo);		
+		f<<pAlarmer->sDeviceIP<<"-"<<"遮挡报警"<<"-"<<tmp<<"-"<<now_time<<"-"<<struAlarmInfo.struAlarmFixedHeader.uStruAlarm.struIOAlarm.dwAlarmInputNo<<";";
+		// printf("--struIOAlarm.dwAlarmInputNo 发生报警的报警输入通道号，一次只有一个:%d\n", struAlarmInfo.struAlarmFixedHeader.uStruAlarm.struIOAlarm.dwAlarmInputNo);		
+		// printf("--struIOAlarm.dwTrigerAlarmOutNum  触发的报警输出个数:%d--\n", struAlarmInfo.struAlarmFixedHeader.uStruAlarm.struIOAlarm.dwTrigerAlarmOutNum );
+		// printf("--struIOAlarm.dwTrigerRecordChanNum   触发的录像通道个数:%d--\n", struAlarmInfo.struAlarmFixedHeader.uStruAlarm.struIOAlarm.dwTrigerRecordChanNum  );
+		// printf("--struAlarmChannel.dwAlarmChanNum    发生报警通道数据个数:%d--\n", struAlarmInfo.struAlarmFixedHeader.uStruAlarm.struAlarmChannel.dwAlarmChanNum   );
 	}
+
 	//IP-alarm Type-时间-时间戳
 	// f<<&p<<endl;
 	f.close();
@@ -88,13 +84,12 @@ pUser)
 
 	int i;
 	NET_DVR_ALARMINFO_V40 struAlarmInfo;
-	//memcpy(&struAlarmInfo, pAlarmInfo, sizeof(NET_DVR_ALARMINFO_V40));
+	memcpy(&struAlarmInfo, pAlarmInfo, sizeof(NET_DVR_ALARMINFO_V40));
 
 	// cout<<"_______________________start_______________________"<<endl;
 	// cout<<"		条件0："<<almIP_0<<"____"<<pAlarmer->sDeviceIP<<endl;
 	// cout<<"		条件0："<<type_0<<"____"<<struAlarmInfo.dwAlarmType<<endl;
 	// cout<<"		条件0："<<now_time<<"____"<<time_0<<endl;
-
 
 	switch (struAlarmInfo.struAlarmFixedHeader.dwAlarmType)
 	{
@@ -160,7 +155,7 @@ pUser)
 			break;
 		}
 	}
-	cout<<"\n\n";
+	cout<<"\n";
 }
 
 
@@ -173,6 +168,7 @@ int main(int argc,char *argv[]){
 	printf("COMM_ALARM: %d\n", COMM_ALARM);
 	printf("COMM_ALARM_V30: %d\n", COMM_ALARM_V30);
 	printf("COMM_ALARM_V40: %d\n", COMM_ALARM_V40);
+	printf("\n");
 
 	//---初始化---
 	NET_DVR_Init();
